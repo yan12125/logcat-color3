@@ -6,9 +6,10 @@ Licensed under the Apache License, Version 2.0
 
 Logcat I/O stream readers and helpers
 """
+from __future__ import unicode_literals
 import asyncore
 import asynchat
-from cStringIO import StringIO
+from io import StringIO
 import fcntl
 import inspect
 from logcatcolor.format import Format, detect_format
@@ -19,7 +20,7 @@ import traceback
 
 # Parts copied from asyncore.file_dispatcher
 class FileLineReader(asynchat.async_chat):
-    LINE_TERMINATOR = "\n"
+    LINE_TERMINATOR = b"\n"
 
     def __init__(self, fd):
         asynchat.async_chat.__init__(self)
@@ -45,7 +46,7 @@ class FileLineReader(asynchat.async_chat):
         fcntl.fcntl(fd, fcntl.F_SETFL, flags)
 
     def collect_incoming_data(self, data):
-        self.log_buffer.write(data)
+        self.log_buffer.write(data.decode('utf-8'))
 
     def found_terminator(self):
         line = self.log_buffer.getvalue()
@@ -71,6 +72,10 @@ class LogcatReader(FileLineReader):
         self.profile = profile
         self.width = width
         self.writer = writer or sys.stdout
+        try:
+            self.writer = self.writer.buffer
+        except AttributeError:
+            pass
 
         self.format = None
         if format is not None:
@@ -121,7 +126,7 @@ class LogcatReader(FileLineReader):
         if Format.MARKER_REGEX.match(line):
             result = self.layout.layout_marker(line)
             if result:
-                self.writer.write(result)
+                self.writer.write(result.encode('utf-8'))
             return
 
         try:
@@ -132,6 +137,6 @@ class LogcatReader(FileLineReader):
             if not result:
                 return
 
-            self.writer.write(result + "\n")
+            self.writer.write((result + "\n").encode('utf-8'))
         finally:
             self.format.data.clear()

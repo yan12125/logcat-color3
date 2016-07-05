@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from logcatcolor.column import TagColumn
 from logcatcolor.profile import Profile
 import os
@@ -27,7 +28,9 @@ class LogcatColorConfig(object):
         if os.path.exists(self.path) and os.path.isfile(self.path):
             # config file is just a python script that globals are imported from
             try:
-                execfile(self.path, self.config)
+                with open(self.path) as f:
+                    code = compile(f.read(), os.path.basename(self.path), 'exec')
+                    exec(code, self.config)
             except:
                 self.report_config_error()
                 sys.exit(1)

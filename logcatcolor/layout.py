@@ -6,11 +6,12 @@ Licensed under the Apache License, Version 2.0
 
 Layouts for mapping logcat log data into a colorful terminal interface
 """
+from __future__ import unicode_literals
 from colorama import Fore, Back, Style
 from logcatcolor.column import *
 from logcatcolor.format import Format
 import re
-from cStringIO import StringIO
+from io import StringIO
 
 def layout(cls):
     Layout.TYPES[cls.NAME] = cls

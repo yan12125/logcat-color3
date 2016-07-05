@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import unicode_literals
 import argparse
 import json
 import os
@@ -8,7 +9,7 @@ import time
 class MockAdb(object):
     def __init__(self, args, command_args):
         self.results_data = {}
-        for attr, value in args.__dict__.iteritems():
+        for attr, value in args.__dict__.items():
             setattr(self, attr, value)
             self.results_data[attr] = value
 
@@ -34,7 +35,7 @@ class MockAdb(object):
         time.sleep(0.1)
 
     def logcat(self):
-        print open(self.log, "r").read()
+        print(open(self.log, "r").read())
 
 def main():
     parser = argparse.ArgumentParser()

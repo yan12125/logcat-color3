@@ -6,9 +6,10 @@ Licensed under the Apache License, Version 2.0
 
 Columns for displaying logcat log data
 """
+from __future__ import unicode_literals
 import colorama
 from colorama import Fore, Back, Style
-import StringIO
+from io import StringIO
 
 colorama.init()
 
@@ -73,7 +74,7 @@ class TagColumn(Column):
             tag_colors = layout.profile.tag_colors
 
         self.tag_colors = tag_colors or {}
-        self.last_used = self.COLOR_MAP.values()[:]
+        self.last_used = list(self.COLOR_MAP.values())
 
     # This will allocate a unique format for the given tag since we dont have
     # very many colors, we always keep track of the LRU
@@ -134,7 +135,7 @@ class MessageColumn(Column):
         if not self.width:
             return message
 
-        messagebuf = StringIO.StringIO()
+        messagebuf = StringIO()
         current = 0
         while current < len(message):
             next = min(current + self.width, len(message))

@@ -1,17 +1,20 @@
+from __future__ import unicode_literals
 import json
 import os
+import sys
 
 this_dir = os.path.abspath(os.path.dirname(__file__))
 top_dir = os.path.dirname(this_dir)
 logcat_color = os.path.join(top_dir, "logcat-color")
-execfile(logcat_color)
+with open(logcat_color) as f:
+    exec(compile(f.read(), "logcat-color", 'exec'))
 
 filter_results = os.path.join(this_dir, ".filter_results")
 mock_adb = os.path.join(this_dir, "mock-adb")
 
 class MockObject(object):
     def __init__(self, **kwargs):
-        for key, value in kwargs.iteritems():
+        for key, value in kwargs.items():
             setattr(self, key, value)
 
 class MockAdbLogcatColor(LogcatColor):
@@ -25,6 +28,7 @@ class MockAdbLogcatColor(LogcatColor):
     def get_adb_args(self):
         adb_args = LogcatColor.get_adb_args(self)
         adb_args[0:1] = [mock_adb, "--log", self.log, "--results", self.results]
+        adb_args = [sys.executable] + adb_args
         return adb_args
 
     def wait_for_device(self):
@@ -56,6 +60,6 @@ def save_filter_results(name, data, result):
 def read_filter_results():
     results = {}
     if os.path.exists(filter_results):
-        results = json.loads(open(filter_results, "r").read())
+        results = json.loads(open(filter_results, "rt").read())
 
     return results

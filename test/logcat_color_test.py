@@ -1,7 +1,8 @@
+from __future__ import print_function, unicode_literals
 import common
 import json
 import os
-from StringIO import StringIO
+from io import StringIO
 from subprocess import Popen, PIPE
 import sys
 import tempfile
@@ -50,29 +51,32 @@ class LogcatColorTest(unittest.TestCase):
         piped_path = None
         if "piped" in kwargs:
             piped_path = kwargs["piped"]
-            piped = open(piped_path, "r").read()
+            piped = open(piped_path, "rb").read()
             del kwargs["piped"]
         elif "input" in kwargs:
             piped = None
             args[1:1] = ["--input", kwargs["input"]]
             del kwargs["input"]
 
+        args = [sys.executable] + args
+
         if self.DEBUG:
             piped_debug = ""
             if piped_path:
                 piped_debug = " < %s" % piped_path
 
-            print " ".join(args) + piped_debug
+            print(" ".join(args) + piped_debug)
 
         self.proc = Popen(args, stdout=PIPE, stderr=PIPE, stdin=PIPE, **kwargs)
         self.out, self.err = self.proc.communicate(piped)
+        self.out = self.out.decode('utf-8')
 
         self.filter_results = common.read_filter_results()
         if os.path.exists(common.filter_results):
             os.unlink(common.filter_results)
 
         if self.DEBUG and self.err:
-            print >>sys.stderr, self.err
+            print(self.err, file=sys.stderr)
 
     @logcat_color_test(piped=BRIEF_LOG)
     def test_piped_input(self):
@@ -85,7 +89,7 @@ class LogcatColorTest(unittest.TestCase):
     @logcat_color_test("--plain", input=BRIEF_LOG)
     def test_plain_logging(self):
         self.assertEqual(self.proc.returncode, 0)
-        brief_data = open(BRIEF_LOG, "r").read()
+        brief_data = open(BRIEF_LOG, "rt").read()
         self.assertEqual(self.out, brief_data)
 
     @logcat_color_test("--plain", "brief_filter_fn",
@@ -132,8 +136,8 @@ class LogcatColorTest(unittest.TestCase):
     @logcat_color_test("--plain", "--output", tmpout, input=BRIEF_LOG)
     def test_file_output(self):
         self.assertEqual(self.proc.returncode, 0)
-        brief_data = open(BRIEF_LOG, "r").read()
-        out_data = open(tmpout, "r").read()
+        brief_data = open(BRIEF_LOG, "rt").read()
+        out_data = open(tmpout, "rt").read()
         self.assertEqual(out_data, brief_data)
 
     def test_logcat_options_with_filters(self):
@@ -168,13 +172,13 @@ class LogcatColorTest(unittest.TestCase):
         lc.loop()
         self.assertEqual(lc.wait_count, 3)
 
-        results = json.loads(open(tmpout, "r").read())
+        results = json.loads(open(tmpout, "rt").read())
         self.assertEqual(len(results), 6)
 
-        logcat_results = filter(lambda d: d["command"] == "logcat", results)
+        logcat_results = list(filter(lambda d: d["command"] == "logcat", results))
         self.assertEqual(len(logcat_results), 3)
 
-        wait_results = filter(lambda d: d["command"] == "wait-for-device", results)
+        wait_results = list(filter(lambda d: d["command"] == "wait-for-device", results))
         self.assertEquals(len(wait_results), 3)
 
         for r in results:
