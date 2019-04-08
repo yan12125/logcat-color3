@@ -1,0 +1,11 @@
+language: python
+
+dist: xenial
+
+python:
+  - 3.7
+  - 3.8-dev
+
+install: pip install colorama
+
+script: python test/test.py
