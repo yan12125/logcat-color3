@@ -7,28 +7,24 @@ work in Windows.
 
 # Installation
 
-**Installation with pip / easy_install** (may require sudo)
+**Installation with pip** (may require sudo)
 
 ```bash
-$ [sudo] pip install logcat-color
-```
-.. or ..
-```bash
-$ [sudo] easy_install logcat-color
+$ [sudo] pip install logcat-color3
 ```
 
 **Installation from source** (requires setuptools, may require sudo)
 
-To get the source, simply [download and extract a release tarball](https://github.com/marshall/logcat-color/downloads).
+To get the source, simply [download and extract a release tarball](https://github.com/yan12125/logcat-color/releases).
 Alternatively, you can clone the logcat-color git repository directly:
 
-```bash    
-$ git clone git://github.com/marshall/logcat-color.git
+```bash
+$ git clone https://github.com/ya12125/logcat-color3.git
 ```
 
 To install logcat-color from the source directory, run:
 
-```bash    
+```bash
 $ python setup.py install
 ```
 
@@ -36,31 +32,31 @@ $ python setup.py install
 
 Run and colorify `adb logcat`
 
-```bash    
+```bash
 $ logcat-color
 ```
 
 Colorify an old logcat text file you have laying around
 
-```bash    
+```bash
 $ logcat-color < /path/to/my.log
 ```
 
 Pipe logcat-color to egrep for only the tags you care about
 
-```bash    
+```bash
 $ logcat-color -e | egrep '(Tag1|Tag2)'
 ```
 
 Run logcat-color with a [custom profile](#profiles) for [filters](#profile_filters), colors, and custom arguments)
 
-```bash    
+```bash
 $ logcat-color <profile-name>
 ```
 
 logcat-color also supports most of the standard adb / logcat arguments, making it a suitable full-time replacement for `adb logcat`
 
-```bash    
+```bash
 $ alias logcat=/path/to/logcat-color
 $ logcat -e
 $ logcat -d
@@ -69,7 +65,7 @@ $ logcat -s 123456789 -b radio -b main
 
 For command line usage documentation:
 
-```bash    
+```bash
 $ logcat-color --help
 ```
 
@@ -82,7 +78,7 @@ and types available to it.
 
 **Sample .logcat-color**
 
-```bash    
+```bash
 # Full path to adb, default is to look at the environment variable ADB, or
 # fall back on using "adb" from the system PATH
 adb = "/path/to/adb"
@@ -122,7 +118,7 @@ Profile(name = "myProfile", ...)
 You can then have logcat-color use this profile by providing it on the command
 line. For example:
 
-```bash    
+```bash
 $ logcat-color myProfile
 ```
 
@@ -130,7 +126,7 @@ To customize the Profile, simply pass more named arguments to the `Profile`
 constructor. This is a list of all the currently supported named arguments:
 
 * `buffers`: A list of logcat buffers to display. By default logcat uses only the
-  `main` system buffer. See the [Android documentation for logcat buffers](http://developer.android.com/tools/debugging/debugging-log.html#alternativeBuffers)
+  `main` system buffer. See the [Android documentation for logcat buffers](https://developer.android.com/tools/debugging/debugging-log.html#alternativeBuffers)
   for more information.
 * `device`: Specifies the device this profile is intended for.
   Valid values: True (connect to first available device), or a string with
@@ -139,7 +135,7 @@ constructor. This is a list of all the currently supported named arguments:
   available emulator instead.
 * `filters`: A list or tuple of [custom filters](#profile_filters).
 * `format`: The logcat format to use. By default logcat uses the `brief` format.
-  See the [Android documentation for logcat formats](http://developer.android.com/tools/debugging/debugging-log.html#outputFormat)
+  See the [Android documentation for logcat formats](https://developer.android.com/tools/debugging/debugging-log.html#outputFormat)
   for more information.
 * `name`: The profile name (required).
 * `priorities`: A list or tuple of priority levels. logcat-color will exclude
@@ -151,12 +147,12 @@ constructor. This is a list of all the currently supported named arguments:
   also assign custom colors to each tag.
   Valid tag colors: `RED`, `GREEN`, `YELLOW`, `BLUE`, `MAGENTA`, `CYAN`, `WHITE`
 * `wrap`: Whether or not to wrap the message column. Default is `True`.
-* `packages`: An array containing the packages that you want to filter on. 
+* `packages`: An array containing the packages that you want to filter on.
   this will be applied in addition to the filters.
 
 Here is an extended example:
 
-```bash    
+```bash
 Profile(name = "radio",
     # Specify a custom device
     device = "device_name",
@@ -255,9 +251,9 @@ Profile(...
 ### Package Filters
 
 When you only care about a few (or one) application this will pass all
-messages to you by that application. 
+messages to you by that application.
 
-*Note*: This will require the application's startup message to be accessible 
+*Note*: This will require the application's startup message to be accessible
 via the current logback trace. The best bet it to start logcat-color then
 start the app.
 
@@ -274,4 +270,4 @@ Profile(...
 
 ## Thanks
 
-Thanks to [Jeff Sharkey](http://jsharkey.org) for the original script that logcat-color is based on, [coloredlogcat.py](http://jsharkey.org/blog/2009/04/22/modifying-the-android-logcat-stream-for-full-color-debugging/).
+Thanks to [Jeff Sharkey](https://jsharkey.org) for the original script that logcat-color is based on, [coloredlogcat.py](https://jsharkey.org/logcat/).
