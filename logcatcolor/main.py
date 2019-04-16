@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 from __future__ import print_function, unicode_literals
 """
 logcat-color
@@ -269,5 +268,5 @@ class LogcatColor(object):
         print(self.WAIT_FOR_DEVICE % device_str)
         check_call(command)
 
-if __name__ == "__main__":
+def main():
     LogcatColor().loop()

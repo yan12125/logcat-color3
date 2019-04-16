@@ -38,13 +38,12 @@ class LogcatColorTest(unittest.TestCase):
 
     def start_logcat_color(self, *args, **kwargs):
         args = list(args)
-        args.insert(0, common.logcat_color)
         if "config" in kwargs:
-            args[1:1] = ["--config", kwargs["config"]]
+            args = ["--config", kwargs["config"]] + args
             del kwargs["config"]
         elif "--config" not in args:
             # fall back to empty config
-            args[1:1] = ["--config", EMPTY_CONFIG]
+            args = ["--config", EMPTY_CONFIG] + args
 
         piped = ""
         piped_path = None
@@ -54,10 +53,10 @@ class LogcatColorTest(unittest.TestCase):
             del kwargs["piped"]
         elif "input" in kwargs:
             piped = None
-            args[1:1] = ["--input", kwargs["input"]]
+            args = ["--input", kwargs["input"]] + args
             del kwargs["input"]
 
-        args = [sys.executable] + args
+        args = [sys.executable, '-c', 'from logcatcolor.main import main; main()'] + args
 
         if self.DEBUG:
             piped_debug = ""

@@ -4,10 +4,8 @@ import os
 import sys
 
 this_dir = os.path.abspath(os.path.dirname(__file__))
-top_dir = os.path.dirname(this_dir)
-logcat_color = os.path.join(top_dir, "logcat-color")
-with open(logcat_color) as f:
-    exec(compile(f.read(), "logcat-color", 'exec'))
+
+from logcatcolor.main import LogcatColor
 
 filter_results = os.path.join(this_dir, ".filter_results")
 mock_adb = os.path.join(this_dir, "mock-adb")
