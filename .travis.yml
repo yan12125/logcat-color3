@@ -10,4 +10,4 @@ install: pip install colorama pyflakes
 
 script:
   - pyflakes .
-  - python ./test/test.py
+  - python -m unittest discover ./test
