@@ -91,7 +91,7 @@ class LogcatReader(FileLineReader):
         if len(self.detect_lines) > 0 and not self.format:
             self.format = BriefFormat()
             if not self.layout:
-                self.layout = BriefLayout()
+                self.layout = BriefLayout(self.config)
 
             for line in self.detect_lines:
                 self.layout_line(line)
