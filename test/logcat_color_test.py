@@ -2,7 +2,6 @@ from __future__ import print_function, unicode_literals
 import common
 import json
 import os
-from io import StringIO
 from subprocess import Popen, PIPE
 import sys
 import tempfile

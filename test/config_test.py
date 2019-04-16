@@ -1,10 +1,8 @@
 from __future__ import unicode_literals
-from common import *
-from logcatcolor.column import *
-from logcatcolor.config import *
-from logcatcolor.layout import *
-from logcatcolor.profile import *
-from logcatcolor.reader import *
+
+import os.path
+from common import MockObject
+from logcatcolor.config import LogcatColorConfig
 import unittest
 
 this_dir = os.path.abspath(os.path.dirname(__file__))

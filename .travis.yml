@@ -6,6 +6,8 @@ python:
   - 3.7
   - 3.8-dev
 
-install: pip install colorama
+install: pip install colorama pyflakes
 
-script: python test/test.py
+script:
+  - pyflakes .
+  - python ./test/test.py

@@ -11,9 +11,8 @@ import asyncore
 import asynchat
 from io import StringIO
 import fcntl
-import inspect
-from logcatcolor.format import Format, detect_format
-from logcatcolor.layout import Layout
+from logcatcolor.format import BriefFormat, Format, detect_format
+from logcatcolor.layout import BriefLayout, Layout
 import os
 import sys
 import traceback

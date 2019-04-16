@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
-from common import *
-from logcatcolor.format import *
+from logcatcolor.format import (
+    detect_format,
+    BriefFormat, Format, LongFormat, ProcessFormat,
+    TagFormat, ThreadFormat, ThreadTimeFormat, TimeFormat,
+)
 import unittest
 
 MARKER_LINE = "--------- beginning of /dev/log/main"

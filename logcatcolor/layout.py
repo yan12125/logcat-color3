@@ -8,9 +8,15 @@ Layouts for mapping logcat log data into a colorful terminal interface
 """
 from __future__ import unicode_literals
 from colorama import Fore, Back, Style
-from logcatcolor.column import *
-from logcatcolor.format import Format
-import re
+from logcatcolor.column import (
+    DateColumn,
+    MessageColumn,
+    PIDColumn,
+    PriorityColumn,
+    TagColumn,
+    TIDColumn,
+    TimeColumn,
+)
 from io import StringIO
 
 def layout(cls):
@@ -64,7 +70,7 @@ class RawLayout(Layout):
         return line
 
     def layout_data(self, data):
-       return data["line"]
+        return data["line"]
 
 @layout
 class BriefLayout(Layout):

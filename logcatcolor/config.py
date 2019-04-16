@@ -1,9 +1,8 @@
-from __future__ import unicode_literals
+from __future__ import print_function, unicode_literals
 from logcatcolor.column import TagColumn
 from logcatcolor.profile import Profile
 import os
 import platform
-import re
 import sys
 import traceback
 
@@ -46,10 +45,10 @@ class LogcatColorConfig(object):
 
 %(error)s"""
 
-        print >>sys.stderr, config_error % {
+        print(config_error % {
             "path": self.path,
             "error": traceback.format_exc()
-        }
+        }, file=sys.stderr)
 
     def get_default_config(self):
         env_key = "HOME"

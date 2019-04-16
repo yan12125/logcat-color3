@@ -1,10 +1,5 @@
 from __future__ import unicode_literals
-from common import *
-from logcatcolor.column import *
-from logcatcolor.config import *
-from logcatcolor.layout import *
-from logcatcolor.profile import *
-from logcatcolor.reader import *
+from logcatcolor.profile import Profile
 import unittest
 
 

@@ -229,7 +229,7 @@ class LogcatColor(object):
             sys.exit(e.errno)
 
     def init_reader(self):
-        reader = LogcatReader(self.input, self.config, profile=self.profile,
+        LogcatReader(self.input, self.config, profile=self.profile,
             format=self.format, layout=self.layout, writer=self.output,
             width=self.width)
 
@@ -250,7 +250,7 @@ class LogcatColor(object):
                 self.wait_for_device()
                 self.start_logcat()
                 self.init_reader()
-        except KeyboardInterrupt as e:
+        except KeyboardInterrupt:
             pass
 
     WAIT_FOR_DEVICE = Fore.WHITE + Back.BLACK + Style.DIM + \
