@@ -182,7 +182,7 @@ class LogcatColorTest(unittest.TestCase):
         self.assertEqual(len(logcat_results), 3)
 
         wait_results = list(filter(lambda d: d["command"] == "wait-for-device", results))
-        self.assertEquals(len(wait_results), 3)
+        self.assertEqual(len(wait_results), 3)
 
         for r in results:
             self.assertEqual(r["serial"], "serial123")
