@@ -58,6 +58,7 @@ def save_filter_results(name, data, result):
 def read_filter_results():
     results = {}
     if os.path.exists(filter_results):
-        results = json.loads(open(filter_results, "rt").read())
+        with open(filter_results, "rt") as f:
+            results = json.loads(f.read())
 
     return results

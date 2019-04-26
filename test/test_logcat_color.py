@@ -49,7 +49,8 @@ class LogcatColorTest(unittest.TestCase):
         piped_path = None
         if "piped" in kwargs:
             piped_path = kwargs["piped"]
-            piped = open(piped_path, "rb").read()
+            with open(piped_path, "rb") as f:
+                piped = f.read()
             del kwargs["piped"]
         elif "input" in kwargs:
             piped = None
@@ -87,7 +88,8 @@ class LogcatColorTest(unittest.TestCase):
     @logcat_color_test("--plain", input=BRIEF_LOG)
     def test_plain_logging(self):
         self.assertEqual(self.proc.returncode, 0)
-        brief_data = open(BRIEF_LOG, "rt").read()
+        with open(BRIEF_LOG, "rt") as f:
+            brief_data = f.read()
         self.assertEqual(self.out, brief_data)
 
     @logcat_color_test("--plain", "brief_filter_fn",
@@ -134,8 +136,10 @@ class LogcatColorTest(unittest.TestCase):
     @logcat_color_test("--plain", "--output", tmpout, input=BRIEF_LOG)
     def test_file_output(self):
         self.assertEqual(self.proc.returncode, 0)
-        brief_data = open(BRIEF_LOG, "rt").read()
-        out_data = open(tmpout, "rt").read()
+        with open(BRIEF_LOG, "rt") as f:
+            brief_data = f.read()
+        with open(tmpout, "rt") as f:
+            out_data = f.read()
         self.assertEqual(out_data, brief_data)
 
     def test_logcat_options_with_filters(self):
@@ -170,7 +174,8 @@ class LogcatColorTest(unittest.TestCase):
         lc.loop()
         self.assertEqual(lc.wait_count, 3)
 
-        results = json.loads(open(tmpout, "rt").read())
+        with open(tmpout, "rt") as f:
+            results = json.loads(f.read())
         self.assertEqual(len(results), 6)
 
         logcat_results = list(filter(lambda d: d["command"] == "logcat", results))

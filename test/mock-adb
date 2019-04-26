@@ -22,7 +22,8 @@ class MockAdb(object):
         data = []
         if os.path.exists(self.results):
             try:
-                data = json.loads(open(self.results, "r").read())
+                with open(self.results, "r") as f:
+                    data = json.loads(f.read())
             except: pass
 
         data.append(self.results_data)
@@ -34,7 +35,8 @@ class MockAdb(object):
         time.sleep(0.1)
 
     def logcat(self):
-        print(open(self.log, "r").read())
+        with open(self.log, "r") as f:
+            print(f.read())
 
 def main():
     parser = argparse.ArgumentParser()
