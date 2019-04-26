@@ -75,7 +75,7 @@ class LogcatColorTest(unittest.TestCase):
             os.unlink(common.filter_results)
 
         if self.DEBUG and self.err:
-            print(self.err, file=sys.stderr)
+            print(self.err.decode('utf-8'), file=sys.stderr)
 
     @logcat_color_test(piped=BRIEF_LOG)
     def test_piped_input(self):
