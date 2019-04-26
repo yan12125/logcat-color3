@@ -53,7 +53,8 @@ def save_filter_results(name, data, result):
         "result": result
     })
 
-    open(filter_results, "w").write(json.dumps(results))
+    with open(filter_results, "w") as f:
+        f.write(json.dumps(results))
 
 def read_filter_results():
     results = {}
