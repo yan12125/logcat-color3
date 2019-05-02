@@ -13,6 +13,16 @@ work in Windows.
 $ [sudo] pip install logcat-color3
 ```
 
+**Installation from Arch Linux User Repository**
+
+Pull https://aur.archlinux.org/packages/logcat-color3 and build it. You can also use prebuilt packages from [archlinuxcn](https://github.com/archlinuxcn/repo/).
+
+**Installation using MacPorts**
+
+```bash
+$ sudo port install logcat-color3
+```
+
 **Installation from source** (requires setuptools, may require sudo)
 
 To get the source, simply [download and extract a release tarball](https://github.com/yan12125/logcat-color/releases).
