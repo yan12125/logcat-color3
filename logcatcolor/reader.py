@@ -45,7 +45,9 @@ class FileLineReader(asynchat.async_chat):
         fcntl.fcntl(fd, fcntl.F_SETFL, flags)
 
     def collect_incoming_data(self, data):
-        self.log_buffer.write(data.decode('utf-8'))
+        # some logcat message may not be valid UTF-8. For example, Magisk Manager after
+        # hiding uses title Manager\xc0\x80\xc0\x80\xc0\x80\xc0\x80\xc0\x80\xc0\x80\xc0\x80
+        self.log_buffer.write(data.decode('utf-8', errors='backslashreplace'))
 
     def found_terminator(self):
         line = self.log_buffer.getvalue()

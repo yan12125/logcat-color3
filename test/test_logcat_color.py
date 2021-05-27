@@ -22,6 +22,8 @@ logs_dir = os.path.join(this_dir, "logs")
 configs_dir = os.path.join(this_dir, "configs")
 
 BRIEF_LOG = os.path.join(logs_dir, "brief_log")
+NON_UTF8_LOG = os.path.join(logs_dir, "non_utf8_log")
+NON_UTF8_OUTPUT = os.path.join(logs_dir, "non_utf8_output")
 BRIEF_FILTER_CONFIG = os.path.join(configs_dir, "brief_filter_config")
 EMPTY_CONFIG = os.path.join(configs_dir, "empty_config")
 
@@ -141,6 +143,13 @@ class LogcatColorTest(unittest.TestCase):
         with open(tmpout, "rt") as f:
             out_data = f.read()
         self.assertEqual(out_data, brief_data)
+
+    @logcat_color_test("--plain", input=NON_UTF8_LOG)
+    def test_non_utf8_output(self):
+        self.assertEqual(self.proc.returncode, 0)
+        with open(NON_UTF8_OUTPUT, "rt") as f:
+            non_utf8_output = f.read()
+        self.assertEqual(self.out, non_utf8_output)
 
     def test_logcat_options_with_filters(self):
         # Make sure logcat flags come before filter arguments
