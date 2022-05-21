@@ -27,6 +27,8 @@ NON_UTF8_OUTPUT = os.path.join(logs_dir, "non_utf8_output")
 BRIEF_FILTER_CONFIG = os.path.join(configs_dir, "brief_filter_config")
 EMPTY_CONFIG = os.path.join(configs_dir, "empty_config")
 
+tmpfd, tmpin = tempfile.mkstemp()
+os.close(tmpfd)
 tmpfd, tmpout = tempfile.mkstemp()
 os.close(tmpfd)
 
@@ -176,7 +178,7 @@ class LogcatColorTest(unittest.TestCase):
     def test_stay_connected(self):
         lc = MockAdbLogcatColor(BRIEF_LOG, tmpout,
                                 args=["-s", "serial123", "--stay-connected",
-                                      "--config", EMPTY_CONFIG],
+                                      "--config", EMPTY_CONFIG, "--input", tmpin],
                                 max_wait_count=3)
         self.assertEqual(lc.config.get_stay_connected(), True)
 
@@ -185,14 +187,13 @@ class LogcatColorTest(unittest.TestCase):
 
         with open(tmpout, "rt") as f:
             results = json.loads(f.read())
-        self.assertEqual(len(results), 6)
+        self.assertEqual(len(results), 5)
 
         logcat_results = list(filter(lambda d: d["command"] == "logcat", results))
-        self.assertEqual(len(logcat_results), 3)
+        self.assertEqual(len(logcat_results), 2)
 
         wait_results = list(filter(lambda d: d["command"] == "wait-for-device", results))
         self.assertEqual(len(wait_results), 3)
 
         for r in results:
             self.assertEqual(r["serial"], "serial123")
-
