@@ -50,6 +50,8 @@ class LogcatColor(object):
         if self.options.plain:
             self.layout = "raw"
 
+        self.proc = None
+
     def get_term_width(self):
         out_fd = self.output.fileno()
         if os.isatty(out_fd):
@@ -213,7 +215,10 @@ class LogcatColor(object):
         adb_command.append("logcat")
         adb_command.extend(self.get_logcat_args())
         try:
-            self.input = Popen(adb_command, stdout=PIPE).stdout
+            self.proc = Popen(adb_command, stdout=PIPE)
+            if self.options.input:
+                self.input.close()
+            self.input = self.proc.stdout
         except OSError as e:
             if e.errno == errno.ENOENT:
                 print(
@@ -249,6 +254,9 @@ class LogcatColor(object):
                 self.wait_for_device()
                 self.start_logcat()
                 self.init_reader()
+                if self.proc is not None:
+                    self.proc.stdout.close()
+                    self.proc.wait()
         except KeyboardInterrupt:
             pass
 
