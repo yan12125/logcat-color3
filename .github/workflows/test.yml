@@ -19,7 +19,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Install Python dependencies
-      run: pip install colorama pyflakes
+      run: pip install -r requirements-dev.txt
 
     - name: Lint
       run: pyflakes .
