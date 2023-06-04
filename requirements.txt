@@ -1,5 +1,3 @@
 colorama
-# Install pyasyncore and pyasynchat from git as PyPI sdists and wheels are broken
-# https://github.com/simonrob/pyasyncore/issues/1
-pyasyncore @ git+https://github.com/simonrob/pyasyncore@v1.0.0; python_version >= "3.12"
-pyasynchat @ git+https://github.com/simonrob/pyasynchat@v1.0.1; python_version >= "3.12"
+pyasyncore; python_version >= "3.12"
+pyasynchat; python_version >= "3.12"
