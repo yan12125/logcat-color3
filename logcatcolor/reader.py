@@ -139,5 +139,6 @@ class LogcatReader(FileLineReader):
                 return
 
             self.writer.write((result + "\n").encode('utf-8'))
+            self.writer.flush()
         finally:
             self.format.data.clear()
