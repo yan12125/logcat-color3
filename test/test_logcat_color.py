@@ -37,7 +37,6 @@ class LogcatColorTest(unittest.TestCase):
 
     def setUp(self):
         # Clear out our temporary output file before each test
-        global tmpout
         with open(tmpout, "w") as f: f.write("")
 
     def start_logcat_color(self, *args, **kwargs):
