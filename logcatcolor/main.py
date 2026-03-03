@@ -56,8 +56,9 @@ class LogcatColor(object):
         out_fd = self.output.fileno()
         if os.isatty(out_fd):
             # unpack the current terminal width / height
-            data = fcntl.ioctl(out_fd, termios.TIOCGWINSZ, '1234')
-            height, width = struct.unpack('hh', data)
+            empty = struct.pack("HHHH", 0, 0, 0, 0)
+            data = fcntl.ioctl(out_fd, termios.TIOCGWINSZ, empty)
+            height, width, _, _ = struct.unpack('HHHH', data)
         else:
            # store a large width when the output of this script is being piped
            width = 2000
